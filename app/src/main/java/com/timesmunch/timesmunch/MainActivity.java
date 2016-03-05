@@ -26,8 +26,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, SelectorActivity.class);
-                overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                overridePendingTransition(android.R.anim.fade_out, android.R.anim.fade_in);
                 startActivity(intent);
             }
         });
