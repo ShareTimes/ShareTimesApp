@@ -1,15 +1,40 @@
 package com.timesmunch.timesmunch;
 
 import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by Faraz on 3/4/16.
  */
 public class SelectorArrayAdapter extends ArrayAdapter {
-    public SelectorArrayAdapter(Context context, int resource, List<String> objects) {
-        super(context, resource, objects);
+    private ArrayList<String> categories;
+
+    public SelectorArrayAdapter(Context context, int layoutResourceId, ArrayList<String> categories) {
+        super(context, layoutResourceId, categories);
+        this.categories = categories;
+    }
+
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View v = convertView;
+        String currentCategory = categories.get(position);
+
+        if (v == null) {
+            LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            v = inflater.inflate(R.layout.custom_list_item, null);
+        }
+
+        if (currentCategory != null) {
+            TextView categoryTextView = (TextView) v.findViewById(R.id.selectionTitle);
+            if (categoryTextView != null) {
+                categoryTextView.setText(currentCategory);
+            }
+        }
+        return v;
     }
 }
