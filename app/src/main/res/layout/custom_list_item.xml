@@ -15,13 +15,18 @@
         android:layout_marginBottom="5dp"
         android:layout_centerVertical="true"/>
 
-    <ImageView
+    <!--<ImageView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:src="@android:drawable/checkbox_on_background"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:layout_marginBottom="5dp"/>-->
+
+    <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@android:drawable/checkbox_on_background"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"/>
+        android:layout_alignParentRight="true"/>
 
 </RelativeLayout>

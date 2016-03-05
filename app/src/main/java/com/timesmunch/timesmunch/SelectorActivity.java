@@ -24,7 +24,6 @@ public class SelectorActivity extends AppCompatActivity {
         mCategoriesListView = (ListView) findViewById(R.id.selectionList);
         mCategoriesArrayAdapter = new SelectorArrayAdapter(this, R.layout.activity_selector, categories);
 
-
-
+        mCategoriesListView.setAdapter(mCategoriesArrayAdapter);
     }
 }
