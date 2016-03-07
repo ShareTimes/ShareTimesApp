@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Times Munch</string>
+    <string name="article_search_api_key">61bce87ec83f2b84a3c3214d1d812e3b:19:74605174</string>
+    <string name="semantic_api_key">59d66ba0175dff2a646373c74fdc66be:8:74605174</string>
+    <string name="times_tags_api_key">2de80889e44b81e104aaf1f3821fbb7e:7:74605174</string>
+    <string name="news_wire_api_key">fd0457bbde566c4783e7643346b77859:5:74605174</string>
+
 </resources>
