@@ -1,11 +1,17 @@
 package com.timesmunch.timesmunch;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by User_1_Benjamin_Rosenthal on 3/7/16.
  */
 public class StoryItem {
 
     private String title;
+    private String byline;
+
+    @SerializedName("abstract")
+    private String mAbstract;
 
     public String getTitle() {
         return title;
@@ -15,4 +21,19 @@ public class StoryItem {
         this.title = title;
     }
 
+    public String getByline() {
+        return byline;
+    }
+
+    public void setByline(String byline) {
+        this.byline = byline;
+    }
+
+    public String getAbstract() {
+        return mAbstract;
+    }
+
+    public void setAbstract(String anAbstract) {
+        mAbstract = anAbstract;
+    }
 }
