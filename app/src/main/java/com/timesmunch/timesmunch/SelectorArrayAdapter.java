@@ -5,7 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -34,6 +37,9 @@ public class SelectorArrayAdapter extends ArrayAdapter {
             if (categoryTextView != null) {
                 categoryTextView.setText(currentCategory);
             }
+
+            ImageView thumbnail = (ImageView) v.findViewById(R.id.imageView);
+            Picasso.with(thumbnail.getContext()).load("").into(thumbnail);
         }
         return v;
     }

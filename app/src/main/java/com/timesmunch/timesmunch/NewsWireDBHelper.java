@@ -4,6 +4,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
+import android.util.Log;
+
+import java.util.ArrayList;
 
 /**
  * Created by sbabba on 3/8/16.
@@ -24,6 +28,16 @@ public class NewsWireDBHelper extends SQLiteOpenHelper {
 
     public static final String[] ALL_COLUMNS = new String[]{COLUMN_ID,COLUMN_ARTICLE_TITLE,COLUMN_ARTICLE_BYLINE,
     COLUMN_ARTICLE_DATE,COLUMN_URL,COLUMN_IMAGE_URL,COLUMN_SECTION};
+
+    private static final String ADD_DATA = "" +
+            "INSERT INTO NEWS_WIRE VALUES" +
+            "(NULL, " +
+            "?, " +
+            "NULL, " +
+            "NULL, " +
+            "NULL, " +
+            "?, " +
+            "NULL)";
 
 
     public NewsWireDBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version){
@@ -75,6 +89,25 @@ public class NewsWireDBHelper extends SQLiteOpenHelper {
                 null);
 
         return cursor;
+    }
+
+    public void insertBoth(ArrayList<StoryItem> results) {
+        SQLiteDatabase db = getWritableDatabase();
+        try {
+            db.beginTransaction();
+            SQLiteStatement sqLiteStatement = db.compileStatement(ADD_DATA);
+            for (int i = 0; i < results.size(); i++) {
+                sqLiteStatement.clearBindings();
+                sqLiteStatement.bindString(1, results.get(i).getTitle());
+                sqLiteStatement.bindString(2, results.get(i).getUrl());
+                sqLiteStatement.executeInsert();
+            }
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.e("INSERTION ERROR", "Insertion Error: " + e.toString());
+        } finally {
+            db.endTransaction();
+        }
     }
 
 
