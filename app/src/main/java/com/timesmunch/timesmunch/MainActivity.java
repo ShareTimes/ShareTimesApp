@@ -7,16 +7,25 @@ import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CursorAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getCanonicalName();
+
+    private CursorAdapter mCursorAdapter;
+    private ListView mListView;
+
 
     // Constants
     // Content provider authority
@@ -30,13 +39,18 @@ public class MainActivity extends AppCompatActivity {
     // A content resolver for accessing the provider
     ContentResolver mResolver;
 
-    Account mAccount;
+    private Account mAccount;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+//        getContentResolver().registerContentObserver(StubProvider.Content);
+
+
+
 
 
     }
@@ -59,10 +73,11 @@ public class MainActivity extends AppCompatActivity {
         mBuilder.setAutoCancel(true);
         mBuilder.setPriority(Notification.PRIORITY_MAX);
 
-        mBuilder.setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.munchlogosmall)).build();
+        mBuilder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.munchlogosmall)).build();
 
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(1,mBuilder.build());
+
     }
 }
 

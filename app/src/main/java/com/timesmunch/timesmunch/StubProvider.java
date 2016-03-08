@@ -2,6 +2,7 @@ package com.timesmunch.timesmunch;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
+import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
 
@@ -9,7 +10,6 @@ import android.net.Uri;
  * Created by User_1_Benjamin_Rosenthal on 3/7/16.
  */
 public class StubProvider extends ContentProvider {
-
     /*
     * Always return true, indicating that the
     * provider loaded correctly.

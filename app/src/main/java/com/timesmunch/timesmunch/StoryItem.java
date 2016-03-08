@@ -9,9 +9,12 @@ public class StoryItem {
 
     private String title;
     private String byline;
-
+    private String published_date;
     @SerializedName("abstract")
     private String mAbstract;
+    private String url;
+    private String section;
+
 
     public String getTitle() {
         return title;
@@ -25,15 +28,25 @@ public class StoryItem {
         return byline;
     }
 
-    public void setByline(String byline) {
-        this.byline = byline;
-    }
+    public void setByline(String byline) {this.byline = byline;}
 
     public String getAbstract() {
         return mAbstract;
     }
 
-    public void setAbstract(String anAbstract) {
-        mAbstract = anAbstract;
+    public void setAbstract(String mAbstract) {
+        this.mAbstract = mAbstract;
     }
+
+    public String getPublished_date() {return published_date;}
+
+    public void setPublished_date(String published_date) {this.published_date = published_date;}
+
+    public String getUrl() {return url;}
+
+    public void setUrl(String url) {this.url = url;}
+
+    public String getSection() {return section;}
+
+    public void setSection(String section) {this.section = section;}
 }
