@@ -95,10 +95,8 @@ public class SplashScreen extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            for (int i = 0; i < result.getResults().size(); i++) {
-                String both = result.getResults().get(i).getTitle() + " " + result.getResults().get(i).getUrl();
-            }
-                result.getResults();
+                NewsWireDBHelper helper = new NewsWireDBHelper(getBaseContext(), null, null, 0);
+                helper.insertBoth(result.getResults());
                 super.onPostExecute(aVoid);
             }
         }

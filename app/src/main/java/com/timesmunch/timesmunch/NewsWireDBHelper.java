@@ -100,6 +100,8 @@ public class NewsWireDBHelper extends SQLiteOpenHelper {
                 sqLiteStatement.clearBindings();
                 sqLiteStatement.bindString(1, results.get(i).getTitle());
                 sqLiteStatement.bindString(2, results.get(i).getUrl());
+                Log.i("1", results.get(i).getTitle());
+                Log.i("2", results.get(i).getUrl());
                 sqLiteStatement.executeInsert();
             }
             db.setTransactionSuccessful();
