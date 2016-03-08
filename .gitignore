@@ -1,6 +1,6 @@
 
 # Created by https://www.gitignore.io/api/android
-local.properties
+*.properties
 ### Android ###
 # Built application files
 *.apk
