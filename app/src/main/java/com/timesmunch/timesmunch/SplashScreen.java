@@ -1,5 +1,6 @@
 package com.timesmunch.timesmunch;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -90,14 +91,17 @@ public class SplashScreen extends AppCompatActivity {
             } catch (Throwable e) {
                 e.printStackTrace();
             }
+            NewsWireDBHelper helper = new NewsWireDBHelper(getBaseContext(), null, null, 0);
+            helper.insertBoth(result.getResults());
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
-                NewsWireDBHelper helper = new NewsWireDBHelper(getBaseContext(), null, null, 0);
-                helper.insertBoth(result.getResults());
-                super.onPostExecute(aVoid);
-            }
+            Intent intent = new Intent(SplashScreen.this, SelectorActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            super.onPostExecute(aVoid);
         }
+    }
     }

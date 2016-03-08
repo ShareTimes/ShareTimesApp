@@ -41,7 +41,7 @@ public class NewsWireDBHelper extends SQLiteOpenHelper {
 
 
     public NewsWireDBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version){
-        super(context, DATABASE_NAME, factory, DATABASE_VERSION);
+        super(context.getApplicationContext(), DATABASE_NAME, factory, DATABASE_VERSION);
     }
 
     @Override
