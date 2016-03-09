@@ -80,7 +80,7 @@ public class SplashScreen extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... params) {
             try {
-                URL url = new URL("http://api.nytimes.com/svc/news/v3/content/nyt/all/.json?limit=5&api-key=fd0457bbde566c4783e7643346b77859:5:74605174");
+                URL url = new URL("http://api.nytimes.com/svc/news/v3/content/nyt/all/.json?limit=20&api-key=fd0457bbde566c4783e7643346b77859:5:74605174");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.connect();
                 InputStream inStream = connection.getInputStream();

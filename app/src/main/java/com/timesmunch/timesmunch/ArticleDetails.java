@@ -1,10 +1,9 @@
 package com.timesmunch.timesmunch;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.webkit.WebView;
 import android.widget.TextView;
 
@@ -36,10 +35,10 @@ public class ArticleDetails extends AppCompatActivity {
 
         final int id = getIntent().getIntExtra("_id", -1);
 
-        if (id > 0){
+       // if (id > 0){
 
 //            String articleTitle = NewsWireDBHelper.getInstance(ArticleDetails.this)
-        }
+    //    }
 
 
 
