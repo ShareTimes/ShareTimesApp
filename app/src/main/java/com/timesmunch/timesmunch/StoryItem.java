@@ -12,7 +12,8 @@ public class StoryItem {
     private String published_date;
     @SerializedName("abstract")
     private String mAbstract;
-    private String url;
+    @SerializedName("thumbnail_standard")
+    private String mPhotoUrl;
     private String section;
 
 
@@ -48,14 +49,12 @@ public class StoryItem {
         this.published_date = published_date;
     }
 
-    public String getUrl() {
-        return url;
+    public String getPhotoUrl() {
+        return mPhotoUrl;
     }
 
-    public void setUrl(String url) {
-        if (url.contains("thumbnailLarge")) {
-            this.url = url;
-        }
+    public void setPhotoUrl(String mPhotoUrl) {
+            this.mPhotoUrl = mPhotoUrl;
     }
 
     public String getSection() {

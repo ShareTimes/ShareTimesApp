@@ -48,6 +48,7 @@ public class SelectorActivity extends AppCompatActivity {
             public void bindView(View view, Context context, Cursor cursor) {
                 TextView selectionTitle = (TextView) view.findViewById(R.id.selectionTitle);
                 ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
+
                 String title = cursor.getString(cursor.getColumnIndex(NewsWireDBHelper.COLUMN_ARTICLE_TITLE));
                 String url = cursor.getString(cursor.getColumnIndex(NewsWireDBHelper.COLUMN_IMAGE_URL));
                 // Line above is grabbing the URL from the database.
