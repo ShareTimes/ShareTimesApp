@@ -30,6 +30,8 @@ public class SelectorActivity extends AppCompatActivity {
 
     private CursorAdapter mCursorAdapter;
 
+    private NewsWireDBHelper mHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,13 +43,16 @@ public class SelectorActivity extends AppCompatActivity {
         NewsWireDBHelper newsWireDBHelper = new NewsWireDBHelper(this, null, null, 0);
         final Cursor cursor = newsWireDBHelper.getAllArticles();
 
+
+
         mCategoriesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Cursor itemClickCursor = mCursorAdapter.getCursor();
+//                Cursor cursor1 = mCursorAdapter.getCursor();
                 Intent intent = new Intent(SelectorActivity.this, ArticleDetails.class);
-                cursor.moveToPosition(position);
-                intent.putExtra("_id", itemClickCursor.getInt(itemClickCursor.getColumnIndex(NewsWireDBHelper.COLUMN_ID)));
+//                cursor1.moveToPosition(position);
+//                intent.putExtra("_id", cursor1.getInt(cursor1.getColumnIndex(NewsWireDBHelper.COLUMN_ID)));
+                intent.putExtra("_id", position);
                 startActivity(intent);
             }
         });
