@@ -12,6 +12,7 @@ public class StoryItem {
     private String published_date;
     @SerializedName("abstract")
     private String mAbstract;
+
     @SerializedName("thumbnail_standard")
     private String mPhotoUrl;
     private String section;
@@ -53,7 +54,7 @@ public class StoryItem {
         return mPhotoUrl;
     }
 
-    public void setPhotoUrl(String mPhotoUrl) {
+    public void setPhotoUrl(String photoUrl) {
             this.mPhotoUrl = mPhotoUrl;
     }
 

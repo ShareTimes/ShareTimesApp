@@ -14,7 +14,9 @@ import java.util.ArrayList;
  */
 public class NewsWireDBHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2
+
+            ;
     private static final String DATABASE_NAME = "times_munch.db";
     private static final String TABLE_NEWSWIRE = "NEWS_WIRE";
 
