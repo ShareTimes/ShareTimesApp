@@ -46,6 +46,18 @@ public class NewsWireDBHelper extends SQLiteOpenHelper {
         super(context.getApplicationContext(), DATABASE_NAME, factory, DATABASE_VERSION);
     }
 
+
+    private static NewsWireDBHelper instance;
+
+    public static NewsWireDBHelper getInstance(Context context){
+        if (instance == null){
+            instance = new NewsWireDBHelper(context.getApplicationContext(),DATABASE_NAME, null,DATABASE_VERSION);
+        }
+        return instance;
+    }
+
+
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_NEWSWIRE_TABLE = "CREATE TABLE " +

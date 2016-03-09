@@ -1,7 +1,9 @@
 package com.timesmunch.timesmunch;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -36,7 +39,18 @@ public class SelectorActivity extends AppCompatActivity {
         mCategoriesListView = (ListView) findViewById(R.id.selectionList);
 
         NewsWireDBHelper newsWireDBHelper = new NewsWireDBHelper(this, null, null, 0);
-        Cursor cursor = newsWireDBHelper.getAllArticles();
+        final Cursor cursor = newsWireDBHelper.getAllArticles();
+
+        mCategoriesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Cursor itemClickCursor = mCursorAdapter.getCursor();
+                Intent intent = new Intent(SelectorActivity.this, ArticleDetails.class);
+                cursor.moveToPosition(position);
+                intent.putExtra("_id", itemClickCursor.getInt(itemClickCursor.getColumnIndex(NewsWireDBHelper.COLUMN_ID)));
+                startActivity(intent);
+            }
+        });
 
         mCursorAdapter = new CursorAdapter(this, cursor, 0) {
             @Override
@@ -55,8 +69,11 @@ public class SelectorActivity extends AppCompatActivity {
                 Log.i("[URL]", url);
                 selectionTitle.setText(title);
 
+                if(url != null && url.length() > 0){
+                    Picasso.with(context).load(url).placeholder(R.drawable.munchlogosmall).error(R.drawable.munchlogosmall).into(imageView);
+                }
 
-                Picasso.with(context).load(url).into(imageView);
+
                 /**
                  * Above is the really cool line which handles loading this image into the ImageView.
                  * There are many things you can do like .centerCrop.into(imageView); or something

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="com.timesmunch.timesmunch.ArticleDetails">
+    
+    
+    <WebView
+        android:id="@+id/articleImage"
+        android:layout_width="match_parent"
+        android:layout_height="175dp"
+        android:contentDescription="Image of Article"
+        android:importantForAccessibility="no"/>
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Title"
+        android:textSize="25sp"
+        android:layout_below="@+id/articleImage"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:padding="5dp" />
+
+    <TextView
+        android:id="@+id/bylineTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titleTextView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="Byline"
+        android:textSize="15sp"
+        android:padding="5dp" />
+
+    <!--<ScrollView-->
+        <!--android:layout_width=""-->
+        <!--android:layout_height=""></ScrollView>-->
+    <WebView
+        android:id="@+id/articleContentWebView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/bylineTextView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+
+</RelativeLayout>
