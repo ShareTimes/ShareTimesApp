@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     tools:context="com.timesmunch.timesmunch.ArticleDetails">
 
+
     <TextView
         android:id="@+id/titleTextView"
         android:layout_width="match_parent"
@@ -29,14 +30,37 @@
     <!--<ScrollView-->
         <!--android:layout_width=""-->
         <!--android:layout_height=""></ScrollView>-->
-<TextView
-    android:id="@+id/contextText"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:text="bodyOfContent"
-    android:layout_below="@+id/bylineTextView"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/bylineTextView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+
+        <TextView
+            android:id="@+id/contextText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="bodyOfContent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"/>
 
 
 </RelativeLayout>

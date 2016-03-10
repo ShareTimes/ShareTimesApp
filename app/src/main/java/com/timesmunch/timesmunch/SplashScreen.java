@@ -60,6 +60,9 @@ public class SplashScreen extends AppCompatActivity {
 //        finish();
     }
 
+
+
+
     private String getInputData(InputStream inStream) throws IOException {
         StringBuilder builder = new StringBuilder();
         BufferedReader reader = new BufferedReader(new InputStreamReader(inStream));
@@ -75,6 +78,9 @@ public class SplashScreen extends AppCompatActivity {
         return builder.toString();
     }
 
+
+
+    //AsyncTask
     public class GetNYTData extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -98,10 +104,11 @@ public class SplashScreen extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
             Intent intent = new Intent(SplashScreen.this, SelectorActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
-            super.onPostExecute(aVoid);
+            finish();
         }
     }
     }

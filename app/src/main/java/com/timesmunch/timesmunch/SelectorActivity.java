@@ -44,7 +44,7 @@ public class SelectorActivity extends AppCompatActivity {
         final Cursor cursor = newsWireDBHelper.getAllArticles();
 
 
-
+        //Item Click listener passing the cursor (id) to the Article Details.
         mCategoriesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -59,6 +59,8 @@ public class SelectorActivity extends AppCompatActivity {
             }
         });
 
+
+        //Cursor Adapter to inflate the ListView.
         mCursorAdapter = new CursorAdapter(this, cursor, 0) {
             @Override
             public View newView(Context context, Cursor cursor, ViewGroup parent) {
@@ -79,24 +81,25 @@ public class SelectorActivity extends AppCompatActivity {
                 if(url != null && url.length() > 0){
                     Picasso.with(context).load(url).placeholder(R.drawable.munchlogosmall).error(R.drawable.munchlogosmall).into(imageView);
                 }
-
-
                 /**
-                 * Above is the really cool line which handles loading this image into the ImageView.
                  * There are many things you can do like .centerCrop.into(imageView); or something
                  * like .centerInside().into(imageView); experiment and see which looks best.
-                 */
-
-                /**
-                 * Hope this makes sense to you, please
-                 * text me if you have any questions!
-                 * Wish me luck in San Francisco. See
-                 * you on Monday.
                  */
             }
         };
 
         mCategoriesListView.setAdapter(mCursorAdapter);
+    }
 
+    @Override
+    protected void onResume() {
+
+        if (mCursorAdapter == null){
+            mCategoriesListView.setAdapter(mCursorAdapter);
+        }
+        else {
+        }
+
+        super.onResume();
     }
 }
