@@ -7,7 +7,9 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.webkit.WebView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +30,7 @@ public class ArticleDetails extends AppCompatActivity {
 
     NewsWireDBHelper mHelper;
     SQLiteDatabase db;
+    ProgressBar mProgressBar;
 
 
     @Override
@@ -36,6 +39,7 @@ public class ArticleDetails extends AppCompatActivity {
         setContentView(R.layout.activity_article_details);
 
         mHelper = new NewsWireDBHelper(ArticleDetails.this, null, null, 0);
+        mProgressBar = (ProgressBar)findViewById(R.id.progressBar);
 
 //        Cursor cursor = mHelper.getArticles();
 
@@ -46,6 +50,8 @@ public class ArticleDetails extends AppCompatActivity {
 
         TextView titleTextView = (TextView) findViewById(R.id.titleTextView);
         TextView bylineTextView = (TextView) findViewById(R.id.bylineTextView);
+
+
 
 //        WebView articleContentWebView = (WebView) findViewById(R.id.articleContentWebView);
 //        articleContentWebView.getSettings().setLoadWithOverviewMode(true);
@@ -90,6 +96,14 @@ public class ArticleDetails extends AppCompatActivity {
     public class HTMLAsyncTask extends AsyncTask<String,Void,String>{
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mProgressBar.setVisibility(View.VISIBLE);
+
+
+        }
+
+        @Override
         protected String doInBackground(String... urls) {
             String theUrl = urls[0];
             StringBuilder stringBuilder = new StringBuilder();
@@ -112,10 +126,15 @@ public class ArticleDetails extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (mProgressBar.getVisibility() == View.VISIBLE){
+                mProgressBar.setVisibility(View.GONE);
+            }
 
             TextView contentText = (TextView) findViewById(R.id.contextText);
             contentText.setText(s);
-            super.onPostExecute(s);
+
+
         }
     }
 
