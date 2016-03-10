@@ -16,6 +16,7 @@ public class StoryItem {
     @SerializedName("thumbnail_standard")
     private String mPhotoUrl;
     private String section;
+    private String url;
 
 
     public String getTitle() {
@@ -55,7 +56,7 @@ public class StoryItem {
     }
 
     public void setPhotoUrl(String photoUrl) {
-            this.mPhotoUrl = mPhotoUrl;
+        this.mPhotoUrl = mPhotoUrl;
     }
 
     public String getSection() {
@@ -64,5 +65,13 @@ public class StoryItem {
 
     public void setSection(String section) {
         this.section = section;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

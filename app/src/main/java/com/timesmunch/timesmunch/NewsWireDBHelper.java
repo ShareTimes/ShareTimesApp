@@ -35,9 +35,9 @@ public class NewsWireDBHelper extends SQLiteOpenHelper {
             "INSERT INTO NEWS_WIRE VALUES" +
             "(NULL, " +
             "?, " +
-            "NULL, " +
-            "NULL, " +
-            "NULL, " +
+            "?, " +
+            "?, " +
+            "?, " +
             "?, " +
             "NULL)";
 
@@ -92,18 +92,39 @@ public class NewsWireDBHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public Cursor getArticlesById(String id){
+    public Cursor getArticlesById(int id){
         SQLiteDatabase db = getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_NEWSWIRE,
                 ALL_COLUMNS,COLUMN_ID+" = ?",
-                new String[]{id},
+                new String[]{String.valueOf(id)},
                 null,
                 null,
                 null);
 
         return cursor;
     }
+
+    public String getArticleByline(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_NEWSWIRE,
+                new String[]{COLUMN_ARTICLE_BYLINE},
+                COLUMN_ID + " LIKE ?",
+                new String[]{String.valueOf(id)},
+                null,
+                null,
+                null,
+                null
+        );
+
+        if (cursor.moveToFirst()) {
+            return cursor.getString(cursor.getColumnIndex(COLUMN_ARTICLE_BYLINE));
+        } else {
+            return "Not Found";
+        }
+    }
+
 
     public void insertBoth(ArrayList<StoryItem> results) {
         SQLiteDatabase db = getWritableDatabase();
@@ -113,9 +134,31 @@ public class NewsWireDBHelper extends SQLiteOpenHelper {
             for (int i = 0; i < results.size(); i++) {
                 sqLiteStatement.clearBindings();
                 sqLiteStatement.bindString(1, results.get(i).getTitle());
-                sqLiteStatement.bindString(2, results.get(i).getPhotoUrl());
+                sqLiteStatement.bindString(2, results.get(i).getByline());
+                sqLiteStatement.bindString(3, results.get(i).getPublished_date());
+                sqLiteStatement.bindString(4, results.get(i).getUrl());
+                sqLiteStatement.bindString(5, results.get(i).getPhotoUrl());
+
+//                sqLiteStatement.bindString(5, results.get(i).getSection());
+
+//                sqLiteStatement.bindString(4, results.get(i).getAbstract());
+
+//                String CREATE_NEWSWIRE_TABLE = "CREATE TABLE " +
+//                        TABLE_NEWSWIRE + "("
+//                        + COLUMN_ID + " INTEGER PRIMARY KEY,"
+//                        + COLUMN_ARTICLE_TITLE + " TEXT," 1
+//                        + COLUMN_ARTICLE_BYLINE + " TEXT," 2
+//                        + COLUMN_ARTICLE_DATE + " TEXT," 3
+//                        + COLUMN_URL + " TEXT," 4
+//                        + COLUMN_IMAGE_URL + " TEXT," 5
+//                        + COLUMN_SECTION + " TEXT)"; 6
+
+
+
                 Log.i("1", results.get(i).getTitle());
                 Log.i("2", results.get(i).getPhotoUrl());
+                Log.i("3", results.get(i).getByline());
+
                 sqLiteStatement.executeInsert();
             }
             db.setTransactionSuccessful();

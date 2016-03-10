@@ -3,16 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context="com.timesmunch.timesmunch.ArticleDetails">
-    
-    
-    <WebView
-        android:id="@+id/articleImage"
-        android:layout_width="match_parent"
-        android:layout_height="175dp"
-        android:contentDescription="Image of Article"
-        android:importantForAccessibility="no"/>
 
     <TextView
         android:id="@+id/titleTextView"

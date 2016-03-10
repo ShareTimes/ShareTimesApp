@@ -48,11 +48,13 @@ public class SelectorActivity extends AppCompatActivity {
         mCategoriesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Cursor cursor1 = mCursorAdapter.getCursor();
                 Intent intent = new Intent(SelectorActivity.this, ArticleDetails.class);
-//                cursor1.moveToPosition(position);
-//                intent.putExtra("_id", cursor1.getInt(cursor1.getColumnIndex(NewsWireDBHelper.COLUMN_ID)));
-                intent.putExtra("_id", position);
+                Cursor cursor1 = mCursorAdapter.getCursor();
+
+                cursor1.moveToPosition(position);
+                int cursorPositionId = cursor1.getInt(cursor1.getColumnIndex(NewsWireDBHelper.COLUMN_ID));
+                intent.putExtra("_id", cursorPositionId);
+
                 startActivity(intent);
             }
         });
