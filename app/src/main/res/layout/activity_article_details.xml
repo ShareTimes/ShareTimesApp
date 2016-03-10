@@ -24,7 +24,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:text="Byline"
-        android:textSize="15sp"
+        android:textSize="12sp"
         android:padding="5dp" />
 
     <!--<ScrollView-->
@@ -47,9 +47,10 @@
             android:id="@+id/contextText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="bodyOfContent"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:textSize="17sp"
+            android:padding="5dp"/>
 
         </RelativeLayout>
     </ScrollView>
