@@ -47,15 +47,18 @@ public class ArticleDetails extends AppCompatActivity {
         TextView titleTextView = (TextView) findViewById(R.id.titleTextView);
         TextView bylineTextView = (TextView) findViewById(R.id.bylineTextView);
 
-        WebView articleContentWebView = (WebView) findViewById(R.id.articleContentWebView);
-        articleContentWebView.getSettings().setLoadWithOverviewMode(true);
-        articleContentWebView.getSettings().setUseWideViewPort(true);
+//        WebView articleContentWebView = (WebView) findViewById(R.id.articleContentWebView);
+//        articleContentWebView.getSettings().setLoadWithOverviewMode(true);
+//        articleContentWebView.getSettings().setUseWideViewPort(true);
 
 
         final int id = getIntent().getIntExtra("_id", -1);
         Cursor cursor = mHelper.getAllArticles();
 //        cursor.moveToNext();
         cursor.moveToPosition(id - 1);
+
+        HTMLAsyncTask htmlAsyncTask = new HTMLAsyncTask();
+        htmlAsyncTask.execute(cursor.getString(cursor.getColumnIndex(NewsWireDBHelper.COLUMN_URL)));
 
 
         if (id > 0) {
@@ -77,11 +80,43 @@ public class ArticleDetails extends AppCompatActivity {
 
             bylineTextView.setText(bylineText);
 
-            articleContentWebView.loadUrl(imageText);
+//            articleContentWebView.loadUrl(imageText);
 
 
         }
 
-
     }
+
+    public class HTMLAsyncTask extends AsyncTask<String,Void,String>{
+
+        @Override
+        protected String doInBackground(String... urls) {
+            String theUrl = urls[0];
+            StringBuilder stringBuilder = new StringBuilder();
+            try {
+                Document document = Jsoup.connect(theUrl).get();
+                Elements bodyText = document.getElementsByAttributeValueContaining("class", "p-block");
+
+                for (Element section : bodyText){
+                    stringBuilder.append(section.text());
+                    stringBuilder.append("\n");
+                    stringBuilder.append("\n");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            return stringBuilder.toString();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+
+            TextView contentText = (TextView) findViewById(R.id.contextText);
+            contentText.setText(s);
+            super.onPostExecute(s);
+        }
+    }
+
 }
