@@ -78,9 +78,14 @@ public class SelectorActivity extends AppCompatActivity {
                 Log.i("[URL]", url);
                 selectionTitle.setText(title);
 
-                if(url != null && url.length() > 0){
-                    Picasso.with(context).load(url).placeholder(R.drawable.munchlogosmall).error(R.drawable.munchlogosmall).into(imageView);
+                if(!url.equals("")){
+                    Picasso.with(context).load(url).into(imageView);
                 }
+                else {
+
+                    imageView.setImageResource(R.drawable.munchthumbnail);
+                }
+
                 /**
                  * There are many things you can do like .centerCrop.into(imageView); or something
                  * like .centerInside().into(imageView); experiment and see which looks best.
