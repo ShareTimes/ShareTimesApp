@@ -18,17 +18,22 @@ Users can follow/save articles, share articles via FaceBook and search for artic
 ​
 A portrait screenshot of how the app looks in the screen to select topics<br>
 <img src="screenshots/1.png" height="400px" />
-​
+
+---
 A portrait screenshot of the list of articles that the user can choose to read<br>
 <img src="screenshots/2.png" height="400px" />
-​
+
+---
+
 A portrait screenshot of the full article content with the Facebook share button<br>
 and Follow button
 <img src="screenshots/3.png" height="400px" />
-​
+
+---
 A portrait screenshot of the articles that are being followed/saved<br>
 <img src="screenshots/4.png" height="400px" />
-​
+
+---
 A portrait screenshot of screen when you click the FaceBook share button<br>
 <img src="screenshots/5.png" height="400px" />
 ​
