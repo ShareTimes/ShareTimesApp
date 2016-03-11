@@ -22,10 +22,23 @@
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".SelectorActivity" />
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
 
         <provider
             android:name=".StubProvider"
             android:authorities="com.timesmunch.timesmunch.StubProvider" />
+        <provider
+            android:name="com.facebook.FacebookContentProvider"
+            android:authorities="com.facebook.app.FacebookContentProvider1564178037227324"
+            android:exported="true" />
 
         <service android:name=".MySyncService">
             <intent-filter>
@@ -38,7 +51,14 @@
         </service>
 
         <activity android:name=".ArticleDetails" />
+
         <activity android:name=".Follow"></activity>
+
+        <activity
+            android:name=".ScrollingActivity"
+            android:label="@string/title_activity_scrolling"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+>>>>>>> Stashed changes
     </application>
 
 </manifest>

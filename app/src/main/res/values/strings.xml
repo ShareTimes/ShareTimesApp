@@ -4,5 +4,9 @@
     <string name="semantic_api_key">59d66ba0175dff2a646373c74fdc66be:8:74605174</string>
     <string name="times_tags_api_key">2de80889e44b81e104aaf1f3821fbb7e:7:74605174</string>
     <string name="news_wire_api_key">fd0457bbde566c4783e7643346b77859:5:74605174</string>
+    <string name="facebook_app_id">1564178037227324</string>
+    <string name="title_activity_scrolling">ScrollingActivity</string>
+    <string name="action_settings">Settings</string>
+
 
 </resources>

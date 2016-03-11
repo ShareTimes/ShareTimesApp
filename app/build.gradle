@@ -22,11 +22,18 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
+    compile files('libs/jsoup-1.8.3.jar')
     compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'io.realm:realm-android:0.87.5'
     compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
     compile 'com.google.code.gson:gson:2.6'
     compile 'com.squareup.picasso:picasso:2.5.2'
+
     compile files('libs/jsoup-1.8.3.jar')
+
+    compile 'com.android.support:cardview-v7:23.2.0'
+    compile 'com.android.support:recyclerview-v7:23.2.0'
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
+
     compile 'com.android.support:design:23.2.0'
 }

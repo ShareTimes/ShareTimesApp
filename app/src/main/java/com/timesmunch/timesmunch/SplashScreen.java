@@ -91,7 +91,7 @@ public class SplashScreen extends AppCompatActivity {
                 connection.connect();
                 InputStream inStream = connection.getInputStream();
                 data = getInputData(inStream);
-                Log.i("DATA:", data);
+//                Log.i("DATA:", data);
                 Gson gson = new Gson();
                 result = gson.fromJson(data, NYTSearchResult.class);
             } catch (Throwable e) {

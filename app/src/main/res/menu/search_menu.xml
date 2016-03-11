@@ -11,7 +11,7 @@
 
     <item
         android:id="@+id/buttonFollowList"
-        android:icon="@android:drawable/ic_input_add"
+        android:icon="@drawable/ic_add_white_24dp"
         android:title="FollowList"
         app:showAsAction="always" />
 

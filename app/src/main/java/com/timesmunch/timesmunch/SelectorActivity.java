@@ -5,9 +5,9 @@ import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.CursorAdapter;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,10 +19,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+
 import android.support.v7.widget.SearchView;
+
+import android.widget.ProgressBar;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.appevents.AppEventsLogger;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -37,7 +42,10 @@ public class SelectorActivity extends AppCompatActivity {
 
     private CursorAdapter mCursorAdapter;
 
+
     private NewsWireDBHelper mHelper;
+
+    ProgressBar mProgressBar;
 
 
     @Override
@@ -47,8 +55,9 @@ public class SelectorActivity extends AppCompatActivity {
 
         mCategoriesListView = (ListView) findViewById(R.id.selectionList);
 
-        NewsWireDBHelper newsWireDBHelper = new NewsWireDBHelper(this, null, null, 0);
-        final Cursor cursor = newsWireDBHelper.getAllArticles();
+        mHelper = new NewsWireDBHelper(SelectorActivity.this, null, null, 0);
+        final Cursor cursor = mHelper.getAllArticles();
+
 
 
         //Item Click listener passing the cursor (id) to the Article Details.
@@ -65,6 +74,42 @@ public class SelectorActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+
+
+        mCategoriesListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(SelectorActivity.this);
+
+                LayoutInflater inflaterDialog = getLayoutInflater();
+
+                View viewDialog = inflaterDialog.inflate(R.layout.force_touch, null);
+
+                TextView titleDialog = (TextView) viewDialog.findViewById(R.id.dialogTitle);
+
+                TextView textDialog = (TextView) viewDialog.findViewById(R.id.dialogText);
+
+
+                    String dialogTitle = cursor.getColumnName(cursor.getColumnIndex(NewsWireDBHelper.COLUMN_ARTICLE_TITLE));
+
+                    String dialogText = cursor.getColumnName(cursor.getColumnIndex(NewsWireDBHelper.COLUMN_ARTICLE_BYLINE));
+
+
+                titleDialog.setText(dialogTitle);
+                textDialog.setText(dialogText);
+
+                dialogBuilder.setView(viewDialog);
+
+
+                AlertDialog dialog = dialogBuilder.create();
+                dialog.show();
+                return false;
+            }
+        });
+
 
 
         //Cursor Adapter to inflate the ListView.
@@ -99,7 +144,8 @@ public class SelectorActivity extends AppCompatActivity {
             }
         };
 
-        mCategoriesListView.setAdapter(mCursorAdapter);
+//        mCategoriesListView.setAdapter(mCursorAdapter);
+//        mCursorAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -156,7 +202,8 @@ public class SelectorActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.buttonFollow) {
+        Log.d(SelectorActivity.class.getName(),"Button clicked");
+        if (id == R.id.buttonFollowList) {
             Intent i = new Intent(SelectorActivity.this, Follow.class);
             startActivity(i);
         }
@@ -166,19 +213,40 @@ public class SelectorActivity extends AppCompatActivity {
     // When you click back from the search it should go back to the article list screen
     @Override
     public void onBackPressed() {
-        Cursor cursor = mHelper.getAllArticles();
-        mCursorAdapter.swapCursor(cursor);
+
+//        Cursor cursor = mHelper.getAllArticles();
+//        mCursorAdapter.swapCursor(cursor);
     }
 
     @Override
     protected void onResume() {
-
-        if (mCursorAdapter == null) {
-            mCategoriesListView.setAdapter(mCursorAdapter);
-        } else {
-        }
-
         super.onResume();
+//        if (mCursorAdapter == null) {
+//            mCategoriesListView.setAdapter(mCursorAdapter);
+
+        Cursor cursorResume = mHelper.getAllArticles();
+        mCursorAdapter.swapCursor(cursorResume);
+
+        mCategoriesListView.setAdapter(mCursorAdapter);
+        mCursorAdapter.notifyDataSetChanged();
+
+
+//        }
+
+        // Logs 'install' and 'app activate' App Events.
+        AppEventsLogger.activateApp(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        AppEventsLogger.deactivateApp(this);
     }
 
 }
+//Cursor cursor = mHelper.getFavoritesList();
+//mSwipeAdapter = new SwipeAdapter(SearchActivity.this, cursor);
+//        mFavoritesListView.setAdapter(mSwipeAdapter);
+//        mSwipeAdapter.swapCursor(cursor);
+//

@@ -3,15 +3,28 @@ package com.timesmunch.timesmunch;
 import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
 import android.graphics.Color;
+
+import android.net.Uri;
+
 import android.os.AsyncTask;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import android.support.design.widget.FloatingActionButton;
+
+import android.widget.VideoView;
+
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -19,6 +32,16 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Scanner;
+import com.facebook.FacebookSdk;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareButton;
+
 
 
 public class ArticleDetails extends AppCompatActivity {
@@ -33,29 +56,26 @@ public class ArticleDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_details);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+
+
+        CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout)findViewById(R.id.toolbar_layout);
+
+
+
 
         mHelper = new NewsWireDBHelper(ArticleDetails.this, null, null, 0);
-        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+        mProgressBar = (ProgressBar)findViewById(R.id.progressBar);
 
-//        Cursor cursor = mHelper.getArticles();
-
-
-//        WebView articleImage = (WebView) findViewById(R.id.articleImage);
-//        articleImage.getSettings().setLoadWithOverviewMode(true);
-//        articleImage.getSettings().setUseWideViewPort(true);
 
         TextView titleTextView = (TextView) findViewById(R.id.titleTextView);
         TextView bylineTextView = (TextView) findViewById(R.id.bylineTextView);
 
 
-//        WebView articleContentWebView = (WebView) findViewById(R.id.articleContentWebView);
-//        articleContentWebView.getSettings().setLoadWithOverviewMode(true);
-//        articleContentWebView.getSettings().setUseWideViewPort(true);
 
 
         final int id = getIntent().getIntExtra("_id", -1);
         Cursor cursor = mHelper.getAllArticles();
-//        cursor.moveToNext();
         cursor.moveToPosition(id - 1);
 
         HTMLAsyncTask htmlAsyncTask = new HTMLAsyncTask();
@@ -64,7 +84,6 @@ public class ArticleDetails extends AppCompatActivity {
 
         if (id > 0) {
 
-//            String location_name = NeighbourSQLiteOpenHelper.getInstance(DescriptionActivity.this).getLocationName(id);
 
             articleTitle = cursor.getString(cursor.getColumnIndex(NewsWireDBHelper.COLUMN_ARTICLE_TITLE));
 
@@ -75,13 +94,25 @@ public class ArticleDetails extends AppCompatActivity {
             String imageText = cursor.getString(cursor.getColumnIndex(NewsWireDBHelper.COLUMN_URL));
 
 
-//            articleImage.loadUrl(image);
+
+
 
             titleTextView.setText(articleTitle);
+            titleTextView.setTextColor(Color.parseColor("#ffffff"));
 
             bylineTextView.setText(bylineText);
+            bylineTextView.setTextColor(Color.parseColor("#ffffff"));
 
-//            articleContentWebView.loadUrl(imageText);
+
+
+
+            ShareLinkContent content = new ShareLinkContent.Builder()
+                    .setContentUrl(Uri.parse(cursor.getString(cursor.getColumnIndex(NewsWireDBHelper.COLUMN_URL))))
+                    .build();
+
+            ShareButton facebookShare = (ShareButton)findViewById(R.id.faceBookShareButton);
+            facebookShare.setShareContent(content);
+
 
 
         }
@@ -92,7 +123,7 @@ public class ArticleDetails extends AppCompatActivity {
 
         {
             mFollowFlag = true;
-            buttonFollow.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#40BFFF")));
+            buttonFollow.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ff5252")));
         } else
 
         {
@@ -139,6 +170,7 @@ public class ArticleDetails extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... urls) {
+
             String theUrl = urls[0];
             StringBuilder stringBuilder = new StringBuilder();
             try {
@@ -150,6 +182,9 @@ public class ArticleDetails extends AppCompatActivity {
                     stringBuilder.append("\n");
                     stringBuilder.append("\n");
                 }
+
+
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
