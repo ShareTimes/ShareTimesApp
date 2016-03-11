@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -15,16 +16,34 @@ import android.support.v7.app.NotificationCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CursorAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getCanonicalName();
 
+    private ImageButton mImageButton;
+    private SectionArrayAdapter mSectionArrayAdapter;
+
     private CursorAdapter mCursorAdapter;
     private ListView mListView;
+
+    SharedPreferences mSharedPreferences;
+    String[] mSections = {"Home", "World",
+            "National", "Politics",
+            "NYRegion", "Business",
+            "Opinion", "Technology", "Science",
+            "Health", "Sports", "Arts",
+            "Fashion", "Dining", "Travel",
+            "Magazine", "RealEstate"};
+    public ArrayList<String> mSectionsArray = new ArrayList<>();
+    public Set<String> mPrefsSet = new HashSet<String>();
 
 
     // Constants
@@ -46,6 +65,29 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        for (int i = 0; i <mSections.length ; i++) {
+            mSectionsArray.add(mSections[i]);
+
+        }
+
+        mSharedPreferences = getSharedPreferences("com.timesmunch.timesmunch.SECTION_PREFS",Context.MODE_PRIVATE);
+        mPrefsSet.add("World");
+        mSharedPreferences.edit().putStringSet("PREFS_SET", mPrefsSet).apply();
+        mListView = (ListView) findViewById(R.id.newsWireListView);
+        mSectionArrayAdapter = new SectionArrayAdapter(MainActivity.this, R.layout.activity_main, mSectionsArray);
+        mListView.setAdapter(mSectionArrayAdapter);
+
+
+        mImageButton = (ImageButton)findViewById(R.id.imageButton);
+        mImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SelectorActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
 
