@@ -1,17 +1,17 @@
 package com.timesmunch.timesmunch;
 
-import android.content.Context;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.support.design.widget.FloatingActionButton;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -19,11 +19,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Scanner;
 
 
 public class ArticleDetails extends AppCompatActivity {
@@ -31,7 +26,8 @@ public class ArticleDetails extends AppCompatActivity {
     NewsWireDBHelper mHelper;
     SQLiteDatabase db;
     ProgressBar mProgressBar;
-
+    private boolean mFollowFlag;
+    String articleTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +35,7 @@ public class ArticleDetails extends AppCompatActivity {
         setContentView(R.layout.activity_article_details);
 
         mHelper = new NewsWireDBHelper(ArticleDetails.this, null, null, 0);
-        mProgressBar = (ProgressBar)findViewById(R.id.progressBar);
+        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
 //        Cursor cursor = mHelper.getArticles();
 
@@ -50,7 +46,6 @@ public class ArticleDetails extends AppCompatActivity {
 
         TextView titleTextView = (TextView) findViewById(R.id.titleTextView);
         TextView bylineTextView = (TextView) findViewById(R.id.bylineTextView);
-
 
 
 //        WebView articleContentWebView = (WebView) findViewById(R.id.articleContentWebView);
@@ -71,7 +66,7 @@ public class ArticleDetails extends AppCompatActivity {
 
 //            String location_name = NeighbourSQLiteOpenHelper.getInstance(DescriptionActivity.this).getLocationName(id);
 
-            String articleTitle = cursor.getString(cursor.getColumnIndex(NewsWireDBHelper.COLUMN_ARTICLE_TITLE));
+            articleTitle = cursor.getString(cursor.getColumnIndex(NewsWireDBHelper.COLUMN_ARTICLE_TITLE));
 
             String bylineText = cursor.getString(cursor.getColumnIndex(NewsWireDBHelper.COLUMN_ARTICLE_BYLINE));
 
@@ -91,9 +86,48 @@ public class ArticleDetails extends AppCompatActivity {
 
         }
 
+        final FloatingActionButton buttonFollow = (FloatingActionButton) findViewById(R.id.buttonFollow);
+
+        if (mHelper.checkIfArticleFollow(id))
+
+        {
+            mFollowFlag = true;
+            buttonFollow.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#40BFFF")));
+        } else
+
+        {
+            mFollowFlag = false;
+            buttonFollow.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#616161")));
+        }
+
+        buttonFollow.setOnClickListener(new View.OnClickListener()
+
+        {
+            public void onClick(View v) {
+
+                if (mFollowFlag == true) {// If the button is already a favorite
+//                    SQLiteDatabase db = mHelper.getWritableDatabase();
+//                    db.execSQL("UPDATE ArticleDetails SET Follow = 0 WHERE _id = " + id);
+                    mHelper.setUnFollow(id);
+                    Toast.makeText(ArticleDetails.this, "Article is not being followed", Toast.LENGTH_SHORT).show();
+                    buttonFollow.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#616161")));
+                    mFollowFlag = false;
+                } else { // If the button is not already a favorite
+//                    SQLiteDatabase db = mHelper.getWritableDatabase();
+//                    db.execSQL("UPDATE ArticleDetails SET Follow = 1 WHERE _id = " + id);
+                    mHelper.setFollow(id);
+                    Toast.makeText(ArticleDetails.this, "Article is being followed", Toast.LENGTH_SHORT).show();
+                    buttonFollow.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF5252")));
+                    mFollowFlag = true;
+                }
+
+            }
+
+
+        });
     }
 
-    public class HTMLAsyncTask extends AsyncTask<String,Void,String>{
+    public class HTMLAsyncTask extends AsyncTask<String, Void, String> {
 
         @Override
         protected void onPreExecute() {
@@ -111,7 +145,7 @@ public class ArticleDetails extends AppCompatActivity {
                 Document document = Jsoup.connect(theUrl).get();
                 Elements bodyText = document.getElementsByAttributeValueContaining("class", "p-block");
 
-                for (Element section : bodyText){
+                for (Element section : bodyText) {
                     stringBuilder.append(section.text());
                     stringBuilder.append("\n");
                     stringBuilder.append("\n");
@@ -127,15 +161,14 @@ public class ArticleDetails extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if (mProgressBar.getVisibility() == View.VISIBLE){
+            if (mProgressBar.getVisibility() == View.VISIBLE) {
                 mProgressBar.setVisibility(View.GONE);
             }
 
             TextView contentText = (TextView) findViewById(R.id.contextText);
             contentText.setText(s);
 
-
         }
-    }
 
+    }
 }

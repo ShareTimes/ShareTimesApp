@@ -37,7 +37,8 @@
                 android:resource="@xml/syncadapter" />
         </service>
 
-        <activity android:name=".ArticleDetails"></activity>
+        <activity android:name=".ArticleDetails" />
+        <activity android:name=".Follow"></activity>
     </application>
 
 </manifest>

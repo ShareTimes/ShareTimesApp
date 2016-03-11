@@ -5,52 +5,66 @@
     android:layout_height="match_parent"
     tools:context="com.timesmunch.timesmunch.ArticleDetails">
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/buttonFollow"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="75dp"
+        android:elevation="8dp"
+        android:padding="16dp"
+        android:src="@drawable/munchthumbnail" />
 
     <TextView
         android:id="@+id/titleTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Title"
-        android:textSize="25sp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:padding="5dp" />
+        android:padding="5dp"
+        android:text="Title"
+        android:textSize="25sp" />
 
     <TextView
         android:id="@+id/bylineTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/titleTextView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_below="@+id/titleTextView"
+        android:padding="5dp"
         android:text="Byline"
-        android:textSize="12sp"
-        android:padding="5dp" />
+        android:textSize="12sp" />
 
     <!--<ScrollView-->
-        <!--android:layout_width=""-->
-        <!--android:layout_height=""></ScrollView>-->
+    <!--android:layout_width=""-->
+    <!--android:layout_height=""></ScrollView>-->
 
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/bylineTextView"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/buttonFollow"
+        android:fillViewport="false">
 
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
 
 
-        <TextView
-            android:id="@+id/contextText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:textSize="17sp"
-            android:padding="5dp"/>
+            <TextView
+                android:id="@+id/contextText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:padding="5dp"
+                android:textSize="17sp" />
 
         </RelativeLayout>
     </ScrollView>
@@ -59,9 +73,9 @@
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:visibility="gone"/>
+        android:layout_centerVertical="true"
+        android:visibility="gone" />
 
 
 </RelativeLayout>

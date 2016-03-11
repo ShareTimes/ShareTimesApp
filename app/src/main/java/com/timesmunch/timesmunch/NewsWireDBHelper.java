@@ -1,5 +1,6 @@
 package com.timesmunch.timesmunch;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,9 +15,7 @@ import java.util.ArrayList;
  */
 public class NewsWireDBHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 2
-
-            ;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "times_munch.db";
     private static final String TABLE_NEWSWIRE = "NEWS_WIRE";
 
@@ -27,9 +26,10 @@ public class NewsWireDBHelper extends SQLiteOpenHelper {
     public static final String COLUMN_URL = "article_url";
     public static final String COLUMN_IMAGE_URL = "image_url";
     public static final String COLUMN_SECTION = "section";
+    public static final String COLUMN_FOLLOW = "following";
 
-    public static final String[] ALL_COLUMNS = new String[]{COLUMN_ID,COLUMN_ARTICLE_TITLE,COLUMN_ARTICLE_BYLINE,
-    COLUMN_ARTICLE_DATE,COLUMN_URL,COLUMN_IMAGE_URL,COLUMN_SECTION};
+    public static final String[] ALL_COLUMNS = new String[]{COLUMN_ID, COLUMN_ARTICLE_TITLE, COLUMN_ARTICLE_BYLINE,
+            COLUMN_ARTICLE_DATE, COLUMN_URL, COLUMN_IMAGE_URL, COLUMN_SECTION, COLUMN_FOLLOW};
 
     private static final String ADD_DATA = "" +
             "INSERT INTO NEWS_WIRE VALUES" +
@@ -39,23 +39,23 @@ public class NewsWireDBHelper extends SQLiteOpenHelper {
             "?, " +
             "?, " +
             "?, " +
+            "?, " +
             "NULL)";
 
 
-    public NewsWireDBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version){
+    public NewsWireDBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context.getApplicationContext(), DATABASE_NAME, factory, DATABASE_VERSION);
     }
 
 
     private static NewsWireDBHelper instance;
 
-    public static NewsWireDBHelper getInstance(Context context){
-        if (instance == null){
-            instance = new NewsWireDBHelper(context.getApplicationContext(),DATABASE_NAME, null,DATABASE_VERSION);
+    public static NewsWireDBHelper getInstance(Context context) {
+        if (instance == null) {
+            instance = new NewsWireDBHelper(context.getApplicationContext(), DATABASE_NAME, null, DATABASE_VERSION);
         }
         return instance;
     }
-
 
 
     @Override
@@ -68,7 +68,8 @@ public class NewsWireDBHelper extends SQLiteOpenHelper {
                 + COLUMN_ARTICLE_DATE + " TEXT,"
                 + COLUMN_URL + " TEXT,"
                 + COLUMN_IMAGE_URL + " TEXT,"
-                + COLUMN_SECTION + " TEXT)";
+                + COLUMN_SECTION + " TEXT,"
+                + COLUMN_FOLLOW + " TEXT) ";
         db.execSQL(CREATE_NEWSWIRE_TABLE);
     }
 
@@ -78,7 +79,7 @@ public class NewsWireDBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public Cursor getAllArticles(){
+    public Cursor getAllArticles() {
         SQLiteDatabase db = getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_NEWSWIRE,
@@ -92,11 +93,11 @@ public class NewsWireDBHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public Cursor getArticlesById(int id){
+    public Cursor getArticlesById(int id) {
         SQLiteDatabase db = getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_NEWSWIRE,
-                ALL_COLUMNS,COLUMN_ID+" = ?",
+                ALL_COLUMNS, COLUMN_ID + " = ?",
                 new String[]{String.valueOf(id)},
                 null,
                 null,
@@ -123,6 +124,72 @@ public class NewsWireDBHelper extends SQLiteOpenHelper {
         } else {
             return "Not Found";
         }
+    }
+
+    public void setFollow(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_FOLLOW, 1);
+
+        db.update(TABLE_NEWSWIRE, values, COLUMN_ID + " = ?", new String[]{String.valueOf(id)});
+    }
+
+    public void setUnFollow(int id) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_FOLLOW, 0);
+
+        db.update(TABLE_NEWSWIRE, values, COLUMN_ID + " = ?", new String[]{String.valueOf(id)});
+    }
+
+    public Cursor checkFollow() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursorCheckFollow = db.query(TABLE_NEWSWIRE, // a. table
+                ALL_COLUMNS, // b. column names
+                COLUMN_FOLLOW + " = ?", // c. selections
+                new String[]{String.valueOf(1)}, // d. selections args
+                null, // e. group by
+                null, // f. having
+                null, // g. order by
+                null); // h. limit
+        //Return list of followed articles
+        return cursorCheckFollow;
+
+    }
+
+    public boolean checkIfArticleFollow(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor checkIfArticleFollow = db.query(TABLE_NEWSWIRE, // a. table
+                ALL_COLUMNS, // b. column names
+                COLUMN_ID + " = ? AND " + COLUMN_FOLLOW + " = ?", // c. selections
+                new String[]{String.valueOf(id), String.valueOf(1)}, // d. selections args
+                null, // e. group by
+                null, // f. having
+                null, // g. order by
+                null); // h. limit
+
+        return checkIfArticleFollow.moveToFirst();
+
+    }
+
+    public Cursor searchArticleList(String query) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursorSearch = db.query(TABLE_NEWSWIRE, // a. table
+                ALL_COLUMNS, // b. column names
+                COLUMN_ARTICLE_TITLE + " LIKE ? OR " + COLUMN_ARTICLE_BYLINE + " LIKE ? OR " + COLUMN_SECTION + " LIKE ?", // c. selections
+                new String[]{"%" + query + "%", "%" + query + "%", "%" + query + "%"}, // d. selections args
+                null, // e. group by
+                null, // f. having
+                null, // g. order by
+                null); // h. limit)
+
+        return cursorSearch;
     }
 
 
@@ -152,7 +219,6 @@ public class NewsWireDBHelper extends SQLiteOpenHelper {
 //                        + COLUMN_URL + " TEXT," 4
 //                        + COLUMN_IMAGE_URL + " TEXT," 5
 //                        + COLUMN_SECTION + " TEXT)"; 6
-
 
 
                 Log.i("1", results.get(i).getTitle());
