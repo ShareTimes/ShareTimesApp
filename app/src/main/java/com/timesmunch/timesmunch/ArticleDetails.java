@@ -152,13 +152,13 @@ public class ArticleDetails extends AppCompatActivity {
     }
 
     public void newsNotification(){
-        Intent intent = new Intent(this,MainActivity.class);
+        Intent intent = new Intent(this,SelectorActivity.class);
 
         PendingIntent pIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(),intent,0);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
         mBuilder.setSmallIcon(android.R.drawable.ic_dialog_alert);
-        mBuilder.setContentTitle("You Favorited This Story");
+        mBuilder.setContentTitle("Yay! You favorited a Story!");
         mBuilder.setContentText("#followMunch");
         mBuilder.setContentIntent(pIntent);
         mBuilder.setAutoCancel(true);

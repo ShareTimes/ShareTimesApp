@@ -8,7 +8,7 @@
        android:id="@+id/dialogTitle"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:textSize="17sp"
+       android:textSize="25sp"
        android:text="Title"
        android:padding="40dp" />
 

@@ -59,9 +59,6 @@ public class SelectorActivity extends AppCompatActivity {
         final Cursor cursor = mHelper.getAllArticles();
 
 
-
-
-
         //Item Click listener passing the cursor (id) to the Article Details.
         mCategoriesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -76,8 +73,6 @@ public class SelectorActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
 
 
         mCategoriesListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -139,11 +134,6 @@ public class SelectorActivity extends AppCompatActivity {
 
                     imageView.setImageResource(R.drawable.munchthumbnail);
                 }
-
-                /**
-                 * There are many things you can do like .centerCrop.into(imageView); or something
-                 * like .centerInside().into(imageView); experiment and see which looks best.
-                 */
             }
         };
 
@@ -216,16 +206,16 @@ public class SelectorActivity extends AppCompatActivity {
     // When you click back from the search it should go back to the article list screen
     @Override
     public void onBackPressed() {
+        Cursor cursorResume = mHelper.getAllArticles();
+        mCursorAdapter.swapCursor(cursorResume);
 
-//        Cursor cursor = mHelper.getAllArticles();
-//        mCursorAdapter.swapCursor(cursor);
+        mCategoriesListView.setAdapter(mCursorAdapter);
+        mCursorAdapter.notifyDataSetChanged();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-//        if (mCursorAdapter == null) {
-//            mCategoriesListView.setAdapter(mCursorAdapter);
 
         Cursor cursorResume = mHelper.getAllArticles();
         mCursorAdapter.swapCursor(cursorResume);
@@ -233,8 +223,6 @@ public class SelectorActivity extends AppCompatActivity {
         mCategoriesListView.setAdapter(mCursorAdapter);
         mCursorAdapter.notifyDataSetChanged();
 
-
-//        }
 
         // Logs 'install' and 'app activate' App Events.
         AppEventsLogger.activateApp(this);
@@ -248,8 +236,4 @@ public class SelectorActivity extends AppCompatActivity {
     }
 
 }
-//Cursor cursor = mHelper.getFavoritesList();
-//mSwipeAdapter = new SwipeAdapter(SearchActivity.this, cursor);
-//        mFavoritesListView.setAdapter(mSwipeAdapter);
-//        mSwipeAdapter.swapCursor(cursor);
-//
+
