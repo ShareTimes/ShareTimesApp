@@ -4,11 +4,14 @@ import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,24 +22,29 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
-
-import android.support.v7.widget.SearchView;
-
 import android.widget.ProgressBar;
-
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.appevents.AppEventsLogger;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class SelectorActivity extends AppCompatActivity {
 
     private ArrayList<String> categories = new ArrayList<>();
     private SelectorArrayAdapter mCategoriesArrayAdapter;
     private ListView mCategoriesListView;
+    public SharedPreferences mSharedPrefs;
 
     private TextView selectionTitle;
 
@@ -58,7 +66,8 @@ public class SelectorActivity extends AppCompatActivity {
         mHelper = new NewsWireDBHelper(SelectorActivity.this, null, null, 0);
         final Cursor cursor = mHelper.getAllArticles();
 
-
+        GetNYTSectionData getSectionData = new GetNYTSectionData();
+        getSectionData.execute();
 
         //Item Click listener passing the cursor (id) to the Article Details.
         mCategoriesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -199,6 +208,21 @@ public class SelectorActivity extends AppCompatActivity {
         return true;
     }
 
+    public String getInputData(InputStream inStream) throws IOException {
+        StringBuilder builder = new StringBuilder();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inStream));
+
+        String data = null;
+
+        while ((data = reader.readLine()) != null) {
+            builder.append(data);
+        }
+
+        reader.close();
+
+        return builder.toString();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -208,6 +232,55 @@ public class SelectorActivity extends AppCompatActivity {
             startActivity(i);
         }
         return true;
+    }
+
+    public class GetNYTSectionData extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            ArrayList<String> sectionsUrls = apiCallBySection();
+            String data = "";
+            NYTSearchResult result;
+            try {
+                for (int i = 0; i < sectionsUrls.size(); i++) {
+                    URL url = new URL(sectionsUrls.get(i));
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.connect();
+                    InputStream inStream = connection.getInputStream();
+                    data = getInputData(inStream);
+                    Gson gson = new Gson();
+                    result = gson.fromJson(data, NYTSearchResult.class);
+                    NewsWireDBHelper helper = new NewsWireDBHelper(getBaseContext(), null, null, 0);
+                    helper.insertBoth(result.getResults());
+                }
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
+
+
+            return null;
+
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            mCursorAdapter.notifyDataSetChanged();
+
+        }
+    }
+
+    public ArrayList<String> apiCallBySection() {
+        mSharedPrefs= getSharedPreferences("com.timesmunch.timesmunch.SECTION_PREFS", Context.MODE_PRIVATE);
+        Map<String,?> keys = mSharedPrefs.getAll();
+        ArrayList<String> sectionURLs = new ArrayList<>();
+        for(Map.Entry<String, ?> entry : keys.entrySet()) {
+            String sectionURL = "http://api.nytimes.com/svc/news/v3/content/all/"
+                    +entry
+                    +"/.json?api-key=61bce87ec83f2b84a3c3214d1d812e3b:19:74605174";
+            sectionURLs.add(sectionURL);
+        }
+        return sectionURLs;
     }
 
     // When you click back from the search it should go back to the article list screen
