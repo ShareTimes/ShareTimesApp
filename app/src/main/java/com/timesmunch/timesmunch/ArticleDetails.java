@@ -1,17 +1,13 @@
 package com.timesmunch.timesmunch;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -19,11 +15,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Scanner;
 
 
 public class ArticleDetails extends AppCompatActivity {
@@ -39,7 +30,7 @@ public class ArticleDetails extends AppCompatActivity {
         setContentView(R.layout.activity_article_details);
 
         mHelper = new NewsWireDBHelper(ArticleDetails.this, null, null, 0);
-        mProgressBar = (ProgressBar)findViewById(R.id.progressBar);
+        //mProgressBar = (ProgressBar)findViewById(R.id.progressBar);
 
 //        Cursor cursor = mHelper.getArticles();
 

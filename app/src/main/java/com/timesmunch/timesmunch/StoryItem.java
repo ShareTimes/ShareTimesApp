@@ -17,6 +17,7 @@ public class StoryItem {
     private String mPhotoUrl;
     private String section;
     private String url;
+    private String item_type;
 
 
     public String getTitle() {
@@ -73,5 +74,13 @@ public class StoryItem {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getItem_type() {
+        return item_type;
+    }
+
+    public void setItem_type(String item_type) {
+        this.item_type = item_type;
     }
 }

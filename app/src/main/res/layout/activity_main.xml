@@ -13,8 +13,17 @@
     <ListView
         android:id="@+id/newsWireListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="400dp"
         />
+
+    <ImageButton
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:id="@+id/imageButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:src="@android:drawable/ic_media_next"/>
 
 
 </RelativeLayout>

@@ -7,25 +7,34 @@ import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CursorAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getCanonicalName();
-
-    private CursorAdapter mCursorAdapter;
+    private ImageButton mImageButton;
+    private SectionArrayAdapter mSectionArrayAdapter;
     private ListView mListView;
-
+    SharedPreferences mSharedPreferences;
+    String[] mSections = {"Home", "World",
+            "National", "Politics",
+            "NYRegion", "Business",
+            "Opinion", "Technology", "Science",
+            "Health", "Sports", "Arts",
+            "Fashion", "Dining", "Travel",
+            "Magazine", "RealEstate"};
+    public ArrayList<String> mSectionsArray = new ArrayList<>();
+    public Set<String> mPrefsSet = new HashSet<String>();
 
     // Constants
     // Content provider authority
@@ -47,19 +56,50 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        for (int i = 0; i <mSections.length ; i++) {
+            mSectionsArray.add(mSections[i]);
+
+        }
+
+        mSharedPreferences = getSharedPreferences("com.timesmunch.timesmunch.SECTION_PREFS",Context.MODE_PRIVATE);
+        mPrefsSet.add("World");
+        mSharedPreferences.edit().putStringSet("PREFS_SET", mPrefsSet).apply();
+        mListView = (ListView) findViewById(R.id.newsWireListView);
+        mSectionArrayAdapter = new SectionArrayAdapter(MainActivity.this, R.layout.activity_main, mSectionsArray);
+        mListView.setAdapter(mSectionArrayAdapter);
+
+
+
+//
+//        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                SharedPreferences.Editor editor = mSharedPreferences.edit();
+//                editor.putString("SECTION_PREFS", mSectionsArray.get(position));
+//                editor.commit();
+//                Toast.makeText(MainActivity.this, "You clicked: " + mSections[position], Toast.LENGTH_SHORT).show();
+//            }
+//        });
+
+        mImageButton = (ImageButton)findViewById(R.id.imageButton);
+        mImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SelectorActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
     }
 
 
-
-
     //Notification. This notification will be for the breaking news.
     //A simple notification.
-    public void newsNotification(){
-        Intent intent = new Intent(this,MainActivity.class);
+    public void newsNotification() {
+        Intent intent = new Intent(this, MainActivity.class);
 
-        PendingIntent pIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(),intent,0);
+        PendingIntent pIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
         mBuilder.setSmallIcon(android.R.drawable.ic_dialog_alert);
@@ -72,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         mBuilder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.munchlogosmall)).build();
 
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(1,mBuilder.build());
+        mNotificationManager.notify(1, mBuilder.build());
 
     }
 }

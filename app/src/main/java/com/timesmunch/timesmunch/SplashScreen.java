@@ -61,8 +61,6 @@ public class SplashScreen extends AppCompatActivity {
     }
 
 
-
-
     private String getInputData(InputStream inStream) throws IOException {
         StringBuilder builder = new StringBuilder();
         BufferedReader reader = new BufferedReader(new InputStreamReader(inStream));
@@ -77,7 +75,6 @@ public class SplashScreen extends AppCompatActivity {
 
         return builder.toString();
     }
-
 
 
     //AsyncTask
@@ -99,16 +96,23 @@ public class SplashScreen extends AppCompatActivity {
             }
             NewsWireDBHelper helper = new NewsWireDBHelper(getBaseContext(), null, null, 0);
             helper.insertBoth(result.getResults());
+//            for (int i = 0; i < result.getResults().size(); i++) { 
+//                if (!result.getResults().get(i).getItem_type().equals("Video")) { 
+//                    helper.insertBoth(result.getResults()); 
+//                }
+//            }
             return null;
         }
+
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            Intent intent = new Intent(SplashScreen.this, SelectorActivity.class);
+            Intent intent = new Intent(SplashScreen.this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
         }
     }
-    }
+
+}
