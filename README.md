@@ -25,8 +25,7 @@ A portrait screenshot of the list of articles that the user can choose to read<b
 
 ---
 
-A portrait screenshot of the full article content with the Facebook share button<br>
-and Follow button
+A portrait screenshot of the full article content with the Facebook share button and Follow buttond<br>
 <img src="screenshots/3.png" height="400px" />
 
 ---
