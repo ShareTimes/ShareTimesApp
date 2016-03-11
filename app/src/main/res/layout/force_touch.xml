@@ -9,16 +9,8 @@
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:textSize="17sp"
-       android:text="Title"/>
+       android:text="Title"
+       android:padding="40dp" />
 
-    <TextView
-        android:id="@+id/dialogText"
-        android:text="Text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:layout_below="@+id/dialogTitle"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

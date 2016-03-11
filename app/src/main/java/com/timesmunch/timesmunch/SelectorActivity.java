@@ -60,6 +60,8 @@ public class SelectorActivity extends AppCompatActivity {
 
 
 
+
+
         //Item Click listener passing the cursor (id) to the Article Details.
         mCategoriesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -82,6 +84,11 @@ public class SelectorActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
+                Cursor cursor2 = mCursorAdapter.getCursor();
+
+                cursor2.moveToPosition(position);
+
+
                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(SelectorActivity.this);
 
                 LayoutInflater inflaterDialog = getLayoutInflater();
@@ -90,16 +97,12 @@ public class SelectorActivity extends AppCompatActivity {
 
                 TextView titleDialog = (TextView) viewDialog.findViewById(R.id.dialogTitle);
 
-                TextView textDialog = (TextView) viewDialog.findViewById(R.id.dialogText);
+
+                String dialogAbstract = cursor2.getString(cursor2.getColumnIndex(NewsWireDBHelper.COLUMN_ABSTRACT));
 
 
-                    String dialogTitle = cursor.getColumnName(cursor.getColumnIndex(NewsWireDBHelper.COLUMN_ARTICLE_TITLE));
+                titleDialog.setText(dialogAbstract);
 
-                    String dialogText = cursor.getColumnName(cursor.getColumnIndex(NewsWireDBHelper.COLUMN_ARTICLE_BYLINE));
-
-
-                titleDialog.setText(dialogTitle);
-                textDialog.setText(dialogText);
 
                 dialogBuilder.setView(viewDialog);
 
@@ -144,8 +147,8 @@ public class SelectorActivity extends AppCompatActivity {
             }
         };
 
-//        mCategoriesListView.setAdapter(mCursorAdapter);
-//        mCursorAdapter.notifyDataSetChanged();
+        mCategoriesListView.setAdapter(mCursorAdapter);
+        mCursorAdapter.notifyDataSetChanged();
     }
 
     @Override
