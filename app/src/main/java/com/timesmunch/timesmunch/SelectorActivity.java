@@ -50,7 +50,7 @@ public class SelectorActivity extends AppCompatActivity {
                     entry.getValue().toString());
         }
 
-        
+
 
         mCategoriesListView = (ListView) findViewById(R.id.selectionList);
 
@@ -108,6 +108,7 @@ public class SelectorActivity extends AppCompatActivity {
         };
 
         mCategoriesListView.setAdapter(mCursorAdapter);
+
     }
 
     @Override
