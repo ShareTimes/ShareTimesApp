@@ -1,7 +1,6 @@
 title | project | team
 ----- | ---- | -------
 Times Munch App | Project 3 | Simon Babba, Faraz Fazli, Benjamin Rosenthal and Adityo Sagir (ADI - New York)
-​
 # Times Munch
 
 ## Overview
