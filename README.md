@@ -1,14 +1,12 @@
-# ShareTimesApp
-Android application for sharing news.
-
-
-title | type | creator
+title | project | team
 ----- | ---- | -------
 Times Munch App | Project 3 | Simon Babba, Faraz Fazli, Benjamin Rosenthal and Adityo Sagir (ADI - New York)
 ​
+# Times Munch
+
 ## Overview
 ​
-This Times Munch app allows users to read news based on topics that interest<br>
+Times Munch app allows users to read news based on topics that interest<br>
 them from the NYTimes.
 ​
 Users can follow/save articles, share articles via FaceBook and search for articles.<br>
